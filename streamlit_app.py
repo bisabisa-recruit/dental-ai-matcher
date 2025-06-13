@@ -1,84 +1,55 @@
 import streamlit as st
 
-# Sample candidate and job data for demonstration
-candidates = [
-    {
-        "name": "Alice",
-        "role": "Dental Hygienist",
-        "experience_years": 4,
-        "state_license": True,
-        "location": "Jackson, MS",
-        "preferred_office_style": "family-focused",
-        "soft_skills": ["punctual", "team-oriented"],
-        "specialty_experience": ["pediatrics"]
-    },
-    {
-        "name": "Brandon",
-        "role": "Dental Assistant",
-        "experience_years": 3,
-        "state_license": False,
-        "location": "Jackson, MS",
-        "preferred_office_style": "fast-paced",
-        "soft_skills": ["adaptable", "reliable"],
-        "specialty_experience": ["orthodontics"]
-    },
-    {
-        "name": "Chloe",
-        "role": "Dental Hygienist",
-        "experience_years": 5,
-        "state_license": True,
-        "location": "Jackson, MS",
-        "preferred_office_style": "family-focused",
-        "soft_skills": ["team-oriented", "punctual"],
-        "specialty_experience": ["pediatrics", "geriatrics"]
-    }
-]
+st.title("🦷 Dental Assistant Match Platform")
 
-def calculate_match_score(candidate, job):
-    score = 0
-    if candidate["role"] == job["role"]:
-        score += 10
-    if candidate["experience_years"] >= job["required_experience"]:
-        score += 10
-    if candidate["state_license"] == job["state_license_required"]:
-        score += 10
-    if candidate["location"] == job["location"]:
-        score += 10
-    if candidate["preferred_office_style"] == job["office_style"]:
-        score += 5
-    skill_overlap = set(candidate["soft_skills"]) & set(job["preferred_skills"])
-    score += len(skill_overlap) * 3
-    specialty_overlap = set(candidate["specialty_experience"]) & set(job["specialty"])
-    score += len(specialty_overlap) * 5
-    return score
+user_type = st.sidebar.radio("I am a:", ["Employer", "Candidate"])
 
-# UI
-st.title("🦷 Dental Hire Match AI")
-st.write("Use AI to evaluate how well dental candidates match your open role.")
+if user_type == "Employer":
+    st.header("📄 Employer Job Post Form - Dental Assistant")
 
-# Job input form
-with st.form("job_form"):
-    role = st.selectbox("Role", ["Dental Hygienist", "Dental Assistant"])
-    required_experience = st.slider("Required Experience (Years)", 0, 10, 2)
-    license_required = st.checkbox("License Required", value=True)
-    location = st.text_input("Location", "Jackson, MS")
-    office_style = st.selectbox("Office Style", ["family-focused", "fast-paced", "luxury", "pediatric"])
-    preferred_skills = st.multiselect("Preferred Soft Skills", ["punctual", "team-oriented", "adaptable", "reliable"])
-    specialties = st.multiselect("Specialty Needs", ["pediatrics", "orthodontics", "geriatrics"])
-    submitted = st.form_submit_button("Calculate Match Scores")
+    st.subheader("Job Basics")
+    location = st.text_input("Job Location (City, State or ZIP)")
+    employment_type = st.multiselect("Employment Type", ["Full-time", "Part-time", "Temp"])
+    schedule = st.text_input("Work Schedule (e.g., Mon–Thu, 7am–4pm)")
+    pay_range = st.slider("Hourly Pay Range ($)", 10, 60, (20, 30))
+    benefits = st.multiselect("Benefits Offered", ["Health", "PTO", "401k", "Bonuses", "CE Reimbursement"])
 
-if submitted:
-    job_posting = {
-        "role": role,
-        "required_experience": required_experience,
-        "state_license_required": license_required,
-        "location": location,
-        "office_style": office_style,
-        "preferred_skills": preferred_skills,
-        "specialty": specialties
-    }
+    st.subheader("What You’re Looking For")
+    years_experience = st.number_input("Minimum Years of Experience Required", 0, 30, 1)
+    certifications = st.multiselect("Must-Have Certifications", ["X-ray", "CPR", "RDA", "Other"])
+    software = st.multiselect("Dental Software Used", ["Eaglesoft", "Dentrix", "OpenDental", "Other"])
+    skills = st.multiselect("Key Skills", [
+        "Communicates treatment clearly", "Understands clinical terms", "Works efficiently",
+        "Takes initiative", "Coachable", "Chairside personality", "Can assist multiple providers"
+    ])
+    culture_keywords = st.text_input("Culture Keywords (comma-separated)")
+    languages = st.text_input("Preferred Languages (optional)")
 
-    st.subheader("🧑‍⚕️ Candidate Match Scores")
-    for candidate in candidates:
-        score = calculate_match_score(candidate, job_posting)
-        st.write(f"**{candidate['name']}** - Match Score: {score}/60")
+elif user_type == "Candidate":
+    st.header("👤 Candidate Profile - Dental Assistant")
+
+    st.subheader("Your Basics")
+    zip_code = st.text_input("Your ZIP Code")
+    commute = st.selectbox("Willing to Commute", ["<10mi", "<20mi", "Open to Relocate"])
+    work_pref = st.multiselect("Work Preference", ["Full-time", "Part-time", "Temp"])
+
+    st.subheader("Skills & Experience")
+    years_experience = st.number_input("Years of Experience", 0, 30, 1)
+    certifications = st.multiselect("Certifications", ["X-ray", "CPR", "RDA", "Other"])
+    software = st.multiselect("Software Experience", ["Eaglesoft", "Dentrix", "OpenDental", "Other"])
+    st.markdown("**Rate yourself (1–5)**")
+    explain_rating = st.slider("Communicating treatment plans", 1, 5, 3)
+    terms_rating = st.slider("Understanding clinical terms", 1, 5, 3)
+    efficiency_rating = st.slider("Speed & efficiency", 1, 5, 3)
+    coachability_rating = st.slider("Coachability", 1, 5, 3)
+    initiative_rating = st.slider("Initiative", 1, 5, 3)
+    chairside_rating = st.slider("Chairside personality", 1, 5, 3)
+
+    st.subheader("Your Ideal Dental Home")
+    wants = st.multiselect("I'm looking for", [
+        "Trust-based environment", "Competitive pay/benefits", "Growth opportunities",
+        "Continuing education", "Bonuses", "Knowledgeable leadership", "Job security"
+    ])
+    pref_schedule = st.text_input("Preferred Schedule (e.g., 4-day work week)")
+    min_rate = st.number_input("Minimum Hourly Rate ($)", 10, 60, 20)
+
