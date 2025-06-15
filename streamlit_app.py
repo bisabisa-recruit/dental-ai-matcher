@@ -58,6 +58,18 @@ def get_role_criteria(role):
             "Self-motivation",
             "Bonus skills",
         ]
+    elif role == "Insurance Coordinator":
+        return [
+            "Experience in dental insurance",
+            "Knowledge of dental codes",
+            "Understands downgrades",
+            "Can verify with breakdown",
+            "Checks eligibility daily",
+            "Updates dental contracts",
+            "Negotiates insurance fees",
+            "Keeps provider info updated",
+            "Bonus skills",
+        ]
     else:
         return []
 
@@ -108,6 +120,15 @@ def get_candidate_preferences(role):
             "Work-life balance",
             "Autonomy",
         ]
+    elif role == "Insurance Coordinator":
+        return [
+            "Quiet work area for insurance calls",
+            "Ability to earn raises",
+            "Not being micromanaged",
+            "Focus on insurance-only tasks",
+            "Autonomy",
+            "Trust from employer",
+        ]
     else:
         return []
 
@@ -115,7 +136,13 @@ def get_candidate_preferences(role):
 st.title("Dental HireMatch")
 st.markdown("AI-powered matching for dental employers and job seekers")
 
-role = st.selectbox("Select Role", ["Dental Assistant", "Dental Hygienist", "Front Office Coordinator", "Office Manager"])
+role = st.selectbox("Select Role", [
+    "Dental Assistant", 
+    "Dental Hygienist", 
+    "Front Office Coordinator", 
+    "Office Manager",
+    "Insurance Coordinator"
+])
 
 st.header("Employer Criteria")
 role_criteria = get_role_criteria(role)
