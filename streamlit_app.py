@@ -41,6 +41,23 @@ def get_role_criteria(role):
             "Experience with dental software",
             "Bonus skills",
         ]
+    elif role == "Office Manager":
+        return [
+            "Leadership",
+            "Conflict resolution",
+            "Emotional intelligence",
+            "Business acumen",
+            "Understands key practice metrics",
+            "Insurance fluency",
+            "Bridges front and back office",
+            "Understands clinical processes",
+            "Effective communicator",
+            "Treatment planning expertise",
+            "Relationship-building with team and dentist",
+            "Flexibility",
+            "Self-motivation",
+            "Bonus skills",
+        ]
     else:
         return []
 
@@ -79,6 +96,18 @@ def get_candidate_preferences(role):
             "Trusting work environment",
             "Team environment",
         ]
+    elif role == "Office Manager":
+        return [
+            "Trustworthy company",
+            "Respect",
+            "Salary transparency",
+            "Comprehensive benefits",
+            "Dentists they trust",
+            "Supportive leadership",
+            "Patient-first philosophy",
+            "Work-life balance",
+            "Autonomy",
+        ]
     else:
         return []
 
@@ -86,7 +115,7 @@ def get_candidate_preferences(role):
 st.title("Dental HireMatch")
 st.markdown("AI-powered matching for dental employers and job seekers")
 
-role = st.selectbox("Select Role", ["Dental Assistant", "Dental Hygienist", "Front Office Coordinator"])
+role = st.selectbox("Select Role", ["Dental Assistant", "Dental Hygienist", "Front Office Coordinator", "Office Manager"])
 
 st.header("Employer Criteria")
 role_criteria = get_role_criteria(role)
@@ -99,6 +128,7 @@ selected_prefs = [st.checkbox(p, key=p) for p in candidate_prefs]
 if st.button("Find Match"):
     score = sum(selected_criteria) + sum(selected_prefs)
     st.success(f"Matching score for {role}: {score} out of {len(role_criteria) + len(candidate_prefs)}")
+
 
 
 
