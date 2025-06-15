@@ -70,6 +70,19 @@ def get_role_criteria(role):
             "Keeps provider info updated",
             "Bonus skills",
         ]
+    elif role == "Treatment Plan Coordinator":
+        return [
+            "Understands presenting vs selling",
+            "Knowledge of financing options",
+            "Meets patients where they are",
+            "Efficient treatment presentation",
+            "Provides cost before appointments",
+            "Quick same-day treatment costs",
+            "Understands quadrant dentistry",
+            "Understands priority dentistry",
+            "Knows revenue impact of same-day care",
+            "Bonus skills",
+        ]
     else:
         return []
 
@@ -112,49 +125,7 @@ def get_candidate_preferences(role):
         return [
             "Trustworthy company",
             "Respect",
-            "Salary transparency",
-            "Comprehensive benefits",
-            "Dentists they trust",
-            "Supportive leadership",
-            "Patient-first philosophy",
-            "Work-life balance",
-            "Autonomy",
-        ]
-    elif role == "Insurance Coordinator":
-        return [
-            "Quiet work area for insurance calls",
-            "Ability to earn raises",
-            "Not being micromanaged",
-            "Focus on insurance-only tasks",
-            "Autonomy",
-            "Trust from employer",
-        ]
-    else:
-        return []
-
-# UI Starts Here
-st.title("Dental HireMatch")
-st.markdown("AI-powered matching for dental employers and job seekers")
-
-role = st.selectbox("Select Role", [
-    "Dental Assistant", 
-    "Dental Hygienist", 
-    "Front Office Coordinator", 
-    "Office Manager",
-    "Insurance Coordinator"
-])
-
-st.header("Employer Criteria")
-role_criteria = get_role_criteria(role)
-selected_criteria = [st.checkbox(c, key=c) for c in role_criteria]
-
-st.header("Candidate Preferences")
-candidate_prefs = get_candidate_preferences(role)
-selected_prefs = [st.checkbox(p, key=p) for p in candidate_prefs]
-
-if st.button("Find Match"):
-    score = sum(selected_criteria) + sum(selected_prefs)
-    st.success(f"Matching score for {role}: {score} out of {len(role_criteria) + len(candidate_prefs)}")
+            "Salary transpare
 
 
 
