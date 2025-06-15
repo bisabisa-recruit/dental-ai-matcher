@@ -125,7 +125,62 @@ def get_candidate_preferences(role):
         return [
             "Trustworthy company",
             "Respect",
-            "Salary transpare
+            "Salary transparency",
+            "Comprehensive benefits",
+            "Dentists they trust",
+            "Supportive leadership",
+            "Patient-first philosophy",
+            "Work-life balance",
+            "Autonomy",
+        ]
+    elif role in ["Insurance Coordinator", "Treatment Plan Coordinator"]:
+        return [
+            "Quiet work area for insurance calls",
+            "Ability to earn raises",
+            "Not being micromanaged",
+            "Focus on insurance-only tasks",
+            "Autonomy",
+            "Trust from employer",
+        ]
+    else:
+        return []
+
+# UI Starts Here
+st.title("Dental HireMatch")
+st.markdown("AI-powered matching for dental employers and job seekers")
+
+role = st.selectbox("Select Role", [
+    "Dental Assistant", 
+    "Dental Hygienist", 
+    "Front Office Coordinator", 
+    "Office Manager",
+    "Insurance Coordinator",
+    "Treatment Plan Coordinator"
+])
+
+st.header("Employer Criteria")
+role_criteria = get_role_criteria(role)
+selected_criteria = [st.checkbox(c, key=c) for c in role_criteria]
+
+st.header("Candidate Preferences")
+candidate_prefs = get_candidate_preferences(role)
+selected_prefs = [st.checkbox(p, key=p) for p in candidate_prefs]
+# Resume Upload Section
+st.header("Upload Your Resume (PDF)")
+uploaded_resume = st.file_uploader("Choose a file", type=["pdf"])
+
+if uploaded_resume is not None:
+    import os
+    os.makedirs("resumes", exist_ok=True)
+    with open(f"resumes/{uploaded_resume.name}", "wb") as f:
+        f.write(uploaded_resume.getbuffer())
+    st.success(f"Uploaded: {uploaded_resume.name}")
+
+
+if st.button("Find Match"):
+    score = sum(selected_criteria) + sum(selected_prefs)
+    st.success(f"Matching score for {role}: {score} out of {len(role_criteria) + len(candidate_prefs)}")
+
 
 
 
