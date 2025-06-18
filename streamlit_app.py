@@ -165,16 +165,28 @@ selected_criteria = [st.checkbox(c, key=c) for c in role_criteria]
 st.header("Candidate Preferences")
 candidate_prefs = get_candidate_preferences(role)
 selected_prefs = [st.checkbox(p, key=p) for p in candidate_prefs]
+from pathlib import Path
+
+# Candidate Preferences Section
+st.header("Candidate Preferences")
+candidate_prefs = get_candidate_preferences(role)
+selected_prefs = [st.checkbox(p, key=p) for p in candidate_prefs]
+
 # Resume Upload Section
 st.header("Upload Your Resume (PDF)")
 uploaded_resume = st.file_uploader("Choose a file", type=["pdf"])
 
 if uploaded_resume is not None:
-    import os
-    os.makedirs("resumes", exist_ok=True)
-    with open(f"resumes/{uploaded_resume.name}", "wb") as f:
-        f.write(uploaded_resume.getbuffer())
-    st.success(f"Uploaded: {uploaded_resume.name}")
+    # Safely ensure the 'resumes' directory exists
+    resumes_path = Path("resumes")
+    if not resumes_path.exists():
+        resumes_path.mkdir(parents=True, exist_ok=True)
+    elif not resumes_path.is_dir():
+        st.error("A file named 'resumes' exists and prevents saving resumes. Please contact support.")
+    else:
+        with open(resumes_path / uploaded_resume.name, "wb") as f:
+            f.write(uploaded_resume.getbuffer())
+        st.success(f"Uploaded: {uploaded_resume.name}")
 
 
 if st.button("Find Match"):
