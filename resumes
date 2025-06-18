@@ -1,17 +1,1 @@
-from pathlib import Path
-
-st.header("Upload Your Resume (PDF)")
-uploaded_resume = st.file_uploader("Choose a file", type=["pdf"])
-
-if uploaded_resume is not None:
-    # Safely ensure the 'resumes' directory exists
-    resumes_path = Path("resumes")
-    if not resumes_path.exists():
-        resumes_path.mkdir(parents=True, exist_ok=True)
-    elif not resumes_path.is_dir():
-        st.error("A file named 'resumes' exists and prevents saving resumes. Please contact support.")
-    else:
-        # Save the uploaded file
-        with open(resumes_path / uploaded_resume.name, "wb") as f:
-            f.write(uploaded_resume.getbuffer())
-        st.success(f"Uploaded: {uploaded_resume.name}")
+resumes/.gitkeep
